@@ -140,7 +140,10 @@ const Index = () => {
                 <Icon name="Search" size={20} />
               </Button>
 
-              <Button className="hidden md:flex gradient-primary gap-2">
+              <Button 
+                className="hidden md:flex gradient-primary gap-2"
+                onClick={() => navigate('/create')}
+              >
                 <Icon name="PenSquare" size={18} />
                 Создать пост
               </Button>
@@ -456,13 +459,21 @@ const Index = () => {
           <Button variant="ghost" size="icon">
             <Icon name="Compass" size={24} />
           </Button>
-          <Button size="icon" className="gradient-primary w-14 h-14 -mt-8 shadow-lg">
+          <Button 
+            size="icon" 
+            className="gradient-primary w-14 h-14 -mt-8 shadow-lg"
+            onClick={() => navigate('/create')}
+          >
             <Icon name="Plus" size={28} />
           </Button>
           <Button variant="ghost" size="icon">
             <Icon name="Bell" size={24} />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => navigate('/profile/dmitry')}
+          >
             <Icon name="User" size={24} />
           </Button>
         </div>

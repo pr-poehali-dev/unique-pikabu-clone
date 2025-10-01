@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,6 +25,7 @@ interface Story {
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('hot');
 
@@ -250,6 +252,7 @@ const Index = () => {
                 key={story.id}
                 className="gradient-card border-border/50 overflow-hidden hover-lift animate-fade-in cursor-pointer"
                 style={{ animationDelay: `${index * 0.1}s` }}
+                onClick={() => navigate(`/post/${story.id}`)}
               >
                 <div className="p-5">
                   <div className="flex items-start gap-4 mb-4">

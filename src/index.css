@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,86 +6,80 @@
 
 @layer base {
   :root {
-    --background: 240 10% 8%;
-    --foreground: 0 0% 98%;
+    --background: 220 18% 12%;
+    --foreground: 210 20% 98%;
 
-    --card: 240 8% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 15% 16%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 240 8% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 15% 16%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 262 83% 58%;
+    --primary: 262 80% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 328 86% 70%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 6% 20%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 220 12% 22%;
+    --muted-foreground: 220 8% 65%;
 
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 220 18% 12%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: 262 83% 58%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 220 12% 24%;
+    --input: 220 12% 24%;
+    --ring: 262 80% 60%;
 
     --radius: 0.75rem;
 
-    --game-purple: 262 83% 58%;
-    --game-pink: 328 86% 70%;
-    --game-orange: 25 95% 53%;
-    --game-blue: 199 89% 48%;
-
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .light {
     --background: 0 0% 100%;
-    --foreground: 240 10% 8%;
+    --foreground: 220 18% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
+    --card-foreground: 220 18% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 8%;
+    --popover-foreground: 220 18% 12%;
 
-    --primary: 262 83% 58%;
+    --primary: 262 80% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 328 86% 70%;
+    --secondary: 217 91% 60%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
+    --muted: 220 12% 95%;
+    --muted-foreground: 220 8% 45%;
 
-    --accent: 25 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 43 96% 56%;
+    --accent-foreground: 220 18% 12%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 262 83% 58%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 220 12% 88%;
+    --input: 220 12% 88%;
+    --ring: 262 80% 60%;
   }
 }
 
@@ -96,16 +90,33 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Rubik", sans-serif;
+    font-family: "Inter", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Space Grotesk", sans-serif;
   }
 }
 
 @layer utilities {
-  .gradient-gaming {
+  .gradient-primary {
     background: linear-gradient(
       135deg,
-      hsl(var(--game-purple)) 0%,
-      hsl(var(--game-pink)) 100%
+      hsl(var(--primary)) 0%,
+      hsl(var(--secondary)) 100%
+    );
+  }
+
+  .gradient-accent {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--accent)) 0%,
+      hsl(43 96% 66%) 100%
     );
   }
 
@@ -113,31 +124,42 @@
     background: linear-gradient(
       135deg,
       hsl(var(--card)) 0%,
-      hsl(240 8% 14%) 100%
+      hsl(220 15% 18%) 100%
     );
   }
 
   .text-gradient {
     background: linear-gradient(
       135deg,
-      hsl(var(--game-purple)) 0%,
-      hsl(var(--game-pink)) 50%,
-      hsl(var(--game-orange)) 100%
+      hsl(var(--primary)) 0%,
+      hsl(var(--secondary)) 50%,
+      hsl(var(--accent)) 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .glow-purple {
+  .glow-primary {
     box-shadow:
-      0 0 20px hsl(var(--game-purple) / 0.3),
-      0 0 40px hsl(var(--game-purple) / 0.1);
+      0 0 30px hsl(var(--primary) / 0.4),
+      0 0 60px hsl(var(--primary) / 0.2);
   }
 
-  .glow-pink {
+  .glow-secondary {
     box-shadow:
-      0 0 20px hsl(var(--game-pink) / 0.3),
-      0 0 40px hsl(var(--game-pink) / 0.1);
+      0 0 30px hsl(var(--secondary) / 0.4),
+      0 0 60px hsl(var(--secondary) / 0.2);
+  }
+
+  .hover-lift {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px hsl(var(--primary) / 0.2);
   }
 }

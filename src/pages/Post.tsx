@@ -265,7 +265,7 @@ const Post = () => {
                 <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
               </Button>
               
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" onClick={() => navigate('/search')}>
                 <Icon name="Search" size={20} />
               </Button>
 

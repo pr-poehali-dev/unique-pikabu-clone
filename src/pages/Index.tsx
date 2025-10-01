@@ -28,6 +28,7 @@ const Index = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('hot');
+  const [storyVotes, setStoryVotes] = useState<Record<number, 'up' | 'down' | null>>({});
 
   const categories = [
     { id: 'all', name: 'Всё', icon: 'Sparkles' },
@@ -39,6 +40,23 @@ const Index = () => {
     { id: 'science', name: 'Наука', icon: 'Atom' },
     { id: 'art', name: 'Творчество', icon: 'Palette' },
   ];
+
+  const handleStoryVote = (storyId: number, type: 'up' | 'down', e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (storyVotes[storyId] === type) {
+      setStoryVotes({ ...storyVotes, [storyId]: null });
+    } else {
+      setStoryVotes({ ...storyVotes, [storyId]: type });
+    }
+  };
+
+  const getStoryRating = (story: Story) => {
+    let rating = story.rating;
+    const vote = storyVotes[story.id];
+    if (vote === 'up') rating += 1;
+    if (vote === 'down') rating -= 1;
+    return rating;
+  };
 
   const stories: Story[] = [
     {
@@ -268,15 +286,33 @@ const Index = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 hover:text-primary hover:bg-primary/10"
+                        className={`h-8 w-8 transition-all ${
+                          storyVotes[story.id] === 'up'
+                            ? 'text-primary bg-primary/20 hover:bg-primary/30'
+                            : 'hover:text-primary hover:bg-primary/10'
+                        }`}
+                        onClick={(e) => handleStoryVote(story.id, 'up', e)}
                       >
                         <Icon name="ArrowUp" size={20} />
                       </Button>
-                      <span className="font-bold text-lg text-primary">{story.rating}</span>
+                      <span className={`font-bold text-lg transition-colors ${
+                        storyVotes[story.id] === 'up'
+                          ? 'text-primary'
+                          : storyVotes[story.id] === 'down'
+                          ? 'text-destructive'
+                          : 'text-foreground'
+                      }`}>
+                        {getStoryRating(story)}
+                      </span>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 hover:text-destructive hover:bg-destructive/10"
+                        className={`h-8 w-8 transition-all ${
+                          storyVotes[story.id] === 'down'
+                            ? 'text-destructive bg-destructive/20 hover:bg-destructive/30'
+                            : 'hover:text-destructive hover:bg-destructive/10'
+                        }`}
+                        onClick={(e) => handleStoryVote(story.id, 'down', e)}
                       >
                         <Icon name="ArrowDown" size={20} />
                       </Button>

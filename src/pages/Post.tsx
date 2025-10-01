@@ -22,6 +22,8 @@ const Post = () => {
   const navigate = useNavigate();
   const [commentText, setCommentText] = useState('');
   const [isCommenting, setIsCommenting] = useState(false);
+  const [postVote, setPostVote] = useState<'up' | 'down' | null>(null);
+  const [commentVotes, setCommentVotes] = useState<Record<number, 'up' | 'down' | null>>({});
 
   const post = {
     id: 1,
@@ -173,6 +175,37 @@ const Post = () => {
     }
   };
 
+  const handlePostVote = (type: 'up' | 'down') => {
+    if (postVote === type) {
+      setPostVote(null);
+    } else {
+      setPostVote(type);
+    }
+  };
+
+  const handleCommentVote = (commentId: number, type: 'up' | 'down') => {
+    if (commentVotes[commentId] === type) {
+      setCommentVotes({ ...commentVotes, [commentId]: null });
+    } else {
+      setCommentVotes({ ...commentVotes, [commentId]: type });
+    }
+  };
+
+  const getPostRating = () => {
+    let rating = post.rating;
+    if (postVote === 'up') rating += 1;
+    if (postVote === 'down') rating -= 1;
+    return rating;
+  };
+
+  const getCommentRating = (comment: Comment) => {
+    let rating = comment.rating;
+    const vote = commentVotes[comment.id];
+    if (vote === 'up') rating += 1;
+    if (vote === 'down') rating -= 1;
+    return rating;
+  };
+
   const renderComment = (comment: Comment, isReply = false) => (
     <div key={comment.id} className={`${isReply ? 'ml-12' : ''}`}>
       <Card className="gradient-card border-border/50 p-4">
@@ -181,15 +214,33 @@ const Post = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 hover:text-primary hover:bg-primary/10"
+              className={`h-7 w-7 transition-all ${
+                commentVotes[comment.id] === 'up'
+                  ? 'text-primary bg-primary/20 hover:bg-primary/30'
+                  : 'hover:text-primary hover:bg-primary/10'
+              }`}
+              onClick={() => handleCommentVote(comment.id, 'up')}
             >
               <Icon name="ArrowUp" size={16} />
             </Button>
-            <span className="font-bold text-sm text-primary">{comment.rating}</span>
+            <span className={`font-bold text-sm transition-colors ${
+              commentVotes[comment.id] === 'up'
+                ? 'text-primary'
+                : commentVotes[comment.id] === 'down'
+                ? 'text-destructive'
+                : 'text-foreground'
+            }`}>
+              {getCommentRating(comment)}
+            </span>
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 hover:text-destructive hover:bg-destructive/10"
+              className={`h-7 w-7 transition-all ${
+                commentVotes[comment.id] === 'down'
+                  ? 'text-destructive bg-destructive/20 hover:bg-destructive/30'
+                  : 'hover:text-destructive hover:bg-destructive/10'
+              }`}
+              onClick={() => handleCommentVote(comment.id, 'down')}
             >
               <Icon name="ArrowDown" size={16} />
             </Button>
@@ -293,15 +344,33 @@ const Post = () => {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-10 w-10 hover:text-primary hover:bg-primary/10"
+                      className={`h-10 w-10 transition-all ${
+                        postVote === 'up'
+                          ? 'text-primary bg-primary/20 hover:bg-primary/30'
+                          : 'hover:text-primary hover:bg-primary/10'
+                      }`}
+                      onClick={() => handlePostVote('up')}
                     >
                       <Icon name="ArrowUp" size={24} />
                     </Button>
-                    <span className="font-bold text-2xl text-primary">{post.rating}</span>
+                    <span className={`font-bold text-2xl transition-colors ${
+                      postVote === 'up'
+                        ? 'text-primary'
+                        : postVote === 'down'
+                        ? 'text-destructive'
+                        : 'text-foreground'
+                    }`}>
+                      {getPostRating()}
+                    </span>
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-10 w-10 hover:text-destructive hover:bg-destructive/10"
+                      className={`h-10 w-10 transition-all ${
+                        postVote === 'down'
+                          ? 'text-destructive bg-destructive/20 hover:bg-destructive/30'
+                          : 'hover:text-destructive hover:bg-destructive/10'
+                      }`}
+                      onClick={() => handlePostVote('down')}
                     >
                       <Icon name="ArrowDown" size={24} />
                     </Button>

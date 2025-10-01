@@ -131,7 +131,12 @@ const Index = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="relative"
+                onClick={() => navigate('/notifications')}
+              >
                 <Icon name="Bell" size={20} />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
               </Button>
@@ -470,7 +475,11 @@ const Index = () => {
           >
             <Icon name="Plus" size={28} />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => navigate('/notifications')}
+          >
             <Icon name="Bell" size={24} />
           </Button>
           <Button 

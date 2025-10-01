@@ -453,12 +453,18 @@ const Post = () => {
               </h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Avatar className="w-16 h-16 border-2 border-primary">
+                  <Avatar 
+                    className="w-16 h-16 border-2 border-primary cursor-pointer"
+                    onClick={() => navigate('/profile/dmitry')}
+                  >
                     <AvatarImage src={post.authorAvatar} />
                     <AvatarFallback>{post.author[0]}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="font-bold hover:text-primary cursor-pointer">
+                    <div 
+                      className="font-bold hover:text-primary cursor-pointer"
+                      onClick={() => navigate('/profile/dmitry')}
+                    >
                       {post.author}
                     </div>
                     <Badge variant="outline" className="mt-1">

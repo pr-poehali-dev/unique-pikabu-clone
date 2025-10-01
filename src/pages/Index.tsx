@@ -276,12 +276,24 @@ const Index = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <Avatar className="w-8 h-8 border border-border">
+                        <Avatar 
+                          className="w-8 h-8 border border-border cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate('/profile/dmitry');
+                          }}
+                        >
                           <AvatarImage src={story.authorAvatar} />
                           <AvatarFallback>{story.author[0]}</AvatarFallback>
                         </Avatar>
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold text-sm hover:text-primary cursor-pointer">
+                          <span 
+                            className="font-semibold text-sm hover:text-primary cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate('/profile/dmitry');
+                            }}
+                          >
                             {story.author}
                           </span>
                           <span className="text-xs text-muted-foreground">•</span>

@@ -17,6 +17,7 @@ import StreamView from "./pages/StreamView";
 import ProfileSettings from "./pages/ProfileSettings";
 import Register from "./pages/Register";
 import GameStats from "./pages/GameStats";
+import FindTeammates from "./pages/FindTeammates";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/settings/profile" element={<ProfileSettings />} />
           <Route path="/register" element={<Register />} />
           <Route path="/games" element={<GameStats />} />
+          <Route path="/teammates" element={<FindTeammates />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

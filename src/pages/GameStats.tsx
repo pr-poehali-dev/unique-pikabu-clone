@@ -225,6 +225,14 @@ const GameStats = () => {
 
             <div className="flex items-center gap-3">
               <Button 
+                className="gap-2 gradient-primary hidden md:flex"
+                onClick={() => navigate('/teammates')}
+              >
+                <Icon name="Users" size={18} />
+                Найти тиммейтов
+              </Button>
+
+              <Button 
                 variant="ghost" 
                 size="icon"
                 onClick={() => navigate('/notifications')}
@@ -318,6 +326,7 @@ const GameStats = () => {
               key={game.id}
               className="gradient-card border-border/50 overflow-hidden hover-lift cursor-pointer animate-fade-in"
               style={{ animationDelay: `${index * 0.05}s` }}
+              onClick={() => navigate(`/teammates?game=${game.id}`)}
             >
               <div className="p-5">
                 <div className="flex items-start gap-4 mb-4">

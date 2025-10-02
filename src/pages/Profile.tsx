@@ -183,7 +183,11 @@ const Profile = () => {
                 <Icon name="Search" size={20} />
               </Button>
 
-              <Button variant="ghost" size="icon">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={() => navigate('/settings/profile')}
+              >
                 <Icon name="Settings" size={20} />
               </Button>
             </div>

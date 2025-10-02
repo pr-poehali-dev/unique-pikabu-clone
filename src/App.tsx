@@ -13,6 +13,8 @@ import Notifications from "./pages/Notifications";
 import Messages from "./pages/Messages";
 import Giveaways from "./pages/Giveaways";
 import Streams from "./pages/Streams";
+import StreamView from "./pages/StreamView";
+import ProfileSettings from "./pages/ProfileSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +35,8 @@ const App = () => (
           <Route path="/messages" element={<Messages />} />
           <Route path="/giveaways" element={<Giveaways />} />
           <Route path="/streams" element={<Streams />} />
+          <Route path="/stream/:id" element={<StreamView />} />
+          <Route path="/settings/profile" element={<ProfileSettings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

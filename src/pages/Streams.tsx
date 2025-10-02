@@ -371,7 +371,7 @@ const Streams = () => {
                   key={stream.id}
                   className="gradient-card border-border/50 overflow-hidden hover-lift cursor-pointer animate-fade-in"
                   style={{ animationDelay: `${index * 0.05}s` }}
-                  onClick={() => window.open(stream.streamUrl, '_blank')}
+                  onClick={() => navigate(`/stream/${stream.id}`)}
                 >
                   <div className="relative">
                     <img

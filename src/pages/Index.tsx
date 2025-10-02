@@ -190,6 +190,18 @@ const Index = () => {
               <Button 
                 variant="ghost" 
                 size="icon" 
+                onClick={() => navigate('/giveaways')}
+                className="relative"
+              >
+                <Icon name="Gift" size={20} />
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-accent text-accent-foreground rounded-full text-xs flex items-center justify-center font-bold">
+                  3
+                </span>
+              </Button>
+
+              <Button 
+                variant="ghost" 
+                size="icon" 
                 className="relative"
                 onClick={() => navigate('/notifications')}
               >
@@ -209,7 +221,10 @@ const Index = () => {
                 Создать пост
               </Button>
 
-              <Avatar className="border-2 border-primary cursor-pointer hover-lift">
+              <Avatar 
+                className="border-2 border-primary cursor-pointer hover-lift"
+                onClick={() => navigate('/profile/dmitry')}
+              >
                 <AvatarImage src="/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg" />
                 <AvatarFallback>YOU</AvatarFallback>
               </Avatar>

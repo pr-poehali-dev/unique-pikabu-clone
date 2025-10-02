@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import Icon from '@/components/ui/icon';
 
 interface Story {
@@ -642,48 +643,123 @@ const Index = () => {
           </main>
 
           <aside className="lg:col-span-3 space-y-4">
-            <Card className="p-5 gradient-card border-border/50">
-              <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                <Icon name="Calendar" size={20} className="text-primary" />
-                Ваша активность
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
-                      <Icon name="PenSquare" size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold">Постов</div>
-                      <div className="text-2xl font-bold text-primary">24</div>
-                    </div>
-                  </div>
-                </div>
+            <Card className="p-5 gradient-card border-border/50 bg-gradient-to-br from-primary/5 via-card to-accent/5 overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -z-10" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-accent/10 rounded-full blur-3xl -z-10" />
+              
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Icon name="Trophy" size={20} className="text-accent" />
+                  Ваша активность
+                </h3>
+                <Badge className="gradient-primary text-white">
+                  Уровень 12
+                </Badge>
+              </div>
 
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                      <Icon name="MessageSquare" size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold">Комментариев</div>
-                      <div className="text-2xl font-bold text-secondary">156</div>
-                    </div>
-                  </div>
+              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-primary/20 via-accent/20 to-secondary/20 border border-primary/30">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-semibold flex items-center gap-2">
+                    <Icon name="Zap" size={16} className="text-accent" />
+                    Прогресс до Уровень 13
+                  </span>
+                  <span className="text-sm font-bold text-primary">75%</span>
                 </div>
-
-                <div className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full gradient-accent flex items-center justify-center">
-                      <Icon name="Award" size={20} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="font-semibold">Рейтинг</div>
-                      <div className="text-2xl font-bold text-accent">8.5K</div>
-                    </div>
-                  </div>
+                <Progress value={75} className="h-3 bg-muted/50" />
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-xs text-muted-foreground">7,500 / 10,000 XP</span>
+                  <span className="text-xs font-semibold text-accent">+2,500 XP</span>
                 </div>
               </div>
+
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
+                      <Icon name="PenSquare" size={16} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground mb-1">Постов</div>
+                  <div className="text-2xl font-bold text-primary">24</div>
+                  <div className="text-xs text-green-500 mt-1 flex items-center gap-1">
+                    <Icon name="TrendingUp" size={12} />
+                    +3 за неделю
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/5 border border-secondary/30">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
+                      <Icon name="MessageSquare" size={16} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground mb-1">Комментариев</div>
+                  <div className="text-2xl font-bold text-secondary">156</div>
+                  <div className="text-xs text-green-500 mt-1 flex items-center gap-1">
+                    <Icon name="TrendingUp" size={12} />
+                    +18 за неделю
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-gradient-to-br from-accent/20 to-accent/5 border border-accent/30">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center">
+                      <Icon name="Award" size={16} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground mb-1">Рейтинг</div>
+                  <div className="text-2xl font-bold text-accent">8.5K</div>
+                  <div className="text-xs text-green-500 mt-1 flex items-center gap-1">
+                    <Icon name="TrendingUp" size={12} />
+                    +342 за неделю
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-gradient-to-br from-destructive/20 to-destructive/5 border border-destructive/30">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-8 h-8 rounded-lg bg-destructive flex items-center justify-center">
+                      <Icon name="Flame" size={16} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground mb-1">Серия дней</div>
+                  <div className="text-2xl font-bold text-destructive">7</div>
+                  <div className="text-xs text-muted-foreground mt-1">подряд</div>
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-3 border-t border-border/50">
+                <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <Icon name="Eye" size={16} className="text-primary" />
+                    <span className="text-sm font-medium">Просмотры</span>
+                  </div>
+                  <span className="text-sm font-bold">45.2K</span>
+                </div>
+
+                <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <Icon name="Heart" size={16} className="text-destructive" />
+                    <span className="text-sm font-medium">Лайков</span>
+                  </div>
+                  <span className="text-sm font-bold">2.1K</span>
+                </div>
+
+                <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/30 transition-colors">
+                  <div className="flex items-center gap-2">
+                    <Icon name="Bookmark" size={16} className="text-accent" />
+                    <span className="text-sm font-medium">В закладках</span>
+                  </div>
+                  <span className="text-sm font-bold">892</span>
+                </div>
+              </div>
+
+              <Button 
+                className="w-full mt-4 gradient-primary gap-2"
+                onClick={() => navigate('/profile/dmitry')}
+              >
+                <Icon name="User" size={16} />
+                Полная статистика
+              </Button>
             </Card>
 
             <Card className="p-5 gradient-card border-border/50 glow-primary">

@@ -191,6 +191,15 @@ const Index = () => {
               <Button 
                 variant="ghost" 
                 size="icon" 
+                onClick={() => navigate('/games')}
+                className="relative"
+              >
+                <Icon name="Gamepad2" size={20} />
+              </Button>
+
+              <Button 
+                variant="ghost" 
+                size="icon" 
                 onClick={() => navigate('/streams')}
                 className="relative"
               >

@@ -593,6 +593,130 @@ const Index = () => {
               </div>
             </Card>
 
+            <Card className="p-5 gradient-card border-border/50 overflow-hidden relative bg-gradient-to-br from-accent/10 via-card to-primary/10">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Icon name="Gift" size={20} className="text-accent" />
+                  Розыгрыши
+                </h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => navigate('/giveaways')}
+                >
+                  Все
+                  <Icon name="ChevronRight" size={14} />
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <div 
+                  className="p-3 rounded-lg bg-card border border-primary/20 cursor-pointer hover:border-primary/40 transition-all hover-lift"
+                  onClick={() => navigate('/giveaways')}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                      <Icon name="Gamepad2" size={24} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 mb-1">
+                        <Badge className="bg-primary/20 text-primary border-primary/30 text-xs">
+                          Официальный
+                        </Badge>
+                      </div>
+                      <h4 className="font-bold text-sm mb-1 line-clamp-2">
+                        PlayStation 5 + игры
+                      </h4>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Icon name="Users" size={12} />
+                          4782
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1 text-destructive">
+                          <Icon name="Clock" size={12} />
+                          13 дней
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  className="p-3 rounded-lg bg-card border border-border/50 cursor-pointer hover:border-accent/40 transition-all hover-lift"
+                  onClick={() => navigate('/giveaways')}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-accent flex items-center justify-center flex-shrink-0">
+                      <Icon name="DollarSign" size={24} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 mb-1">
+                        <Badge className="bg-primary/20 text-primary border-primary/30 text-xs">
+                          Официальный
+                        </Badge>
+                      </div>
+                      <h4 className="font-bold text-sm mb-1 line-clamp-2">
+                        5000₽ за лучший пост
+                      </h4>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Icon name="Users" size={12} />
+                          234
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1 text-destructive">
+                          <Icon name="Clock" size={12} />
+                          5 дней
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  className="p-3 rounded-lg bg-card border border-border/50 cursor-pointer hover:border-accent/40 transition-all hover-lift"
+                  onClick={() => navigate('/giveaways')}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-accent to-primary flex items-center justify-center flex-shrink-0">
+                      <Icon name="Headphones" size={24} className="text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 mb-1">
+                        <Badge variant="secondary" className="text-xs">
+                          От юзера
+                        </Badge>
+                      </div>
+                      <h4 className="font-bold text-sm mb-1 line-clamp-2">
+                        AirPods Pro
+                      </h4>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Icon name="Users" size={12} />
+                          156
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1 text-destructive">
+                          <Icon name="Clock" size={12} />
+                          8 дней
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button 
+                className="w-full mt-4 gradient-primary gap-2"
+                onClick={() => navigate('/giveaways')}
+              >
+                <Icon name="Gift" size={16} />
+                Все розыгрыши
+              </Button>
+            </Card>
+
             <Card className="p-5 gradient-card border-border/50">
               <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                 <Icon name="Lightbulb" size={20} className="text-accent" />

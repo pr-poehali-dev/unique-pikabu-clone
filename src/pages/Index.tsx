@@ -190,6 +190,18 @@ const Index = () => {
               <Button 
                 variant="ghost" 
                 size="icon" 
+                onClick={() => navigate('/streams')}
+                className="relative"
+              >
+                <Icon name="Tv" size={20} />
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full text-xs flex items-center justify-center font-bold animate-pulse">
+                  7
+                </span>
+              </Button>
+
+              <Button 
+                variant="ghost" 
+                size="icon" 
                 onClick={() => navigate('/giveaways')}
                 className="relative"
               >
@@ -254,6 +266,102 @@ const Index = () => {
                   </Button>
                 ))}
               </div>
+            </Card>
+
+            <Card className="p-5 gradient-card border-border/50 bg-gradient-to-br from-destructive/10 via-card to-primary/10">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Icon name="Tv" size={20} className="text-destructive" />
+                  Стримы
+                </h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="text-xs"
+                  onClick={() => navigate('/streams')}
+                >
+                  Все
+                  <Icon name="ChevronRight" size={14} />
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <div 
+                  className="p-3 rounded-lg bg-card border border-destructive/30 cursor-pointer hover:border-destructive/50 transition-all hover-lift relative overflow-hidden"
+                  onClick={() => navigate('/streams')}
+                >
+                  <div className="absolute top-2 right-2">
+                    <Badge className="bg-destructive text-destructive-foreground gap-1 text-xs animate-pulse">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      LIVE
+                    </Badge>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Avatar className="w-10 h-10 border-2 border-destructive">
+                      <AvatarImage src="/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg" />
+                      <AvatarFallback>DK</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm mb-1 line-clamp-2">
+                        Разработка на React 🚀
+                      </h4>
+                      <p className="text-xs text-muted-foreground mb-2">Дмитрий Космонавт</p>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Icon name="Eye" size={12} />
+                          1.2K
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Icon name="Twitch" size={12} className="text-purple-500" />
+                          Twitch
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div 
+                  className="p-3 rounded-lg bg-card border border-destructive/30 cursor-pointer hover:border-destructive/50 transition-all hover-lift relative overflow-hidden"
+                  onClick={() => navigate('/streams')}
+                >
+                  <div className="absolute top-2 right-2">
+                    <Badge className="bg-destructive text-destructive-foreground gap-1 text-xs animate-pulse">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      LIVE
+                    </Badge>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Avatar className="w-10 h-10 border-2 border-destructive">
+                      <AvatarImage src="/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg" />
+                      <AvatarFallback>GM</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm mb-1 line-clamp-2">
+                        Cyberpunk 2077 прохождение
+                      </h4>
+                      <p className="text-xs text-muted-foreground mb-2">GameMaster Pro</p>
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Icon name="Eye" size={12} />
+                          3.4K
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Icon name="Youtube" size={12} className="text-red-500" />
+                          YouTube
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button 
+                className="w-full mt-4 gap-2 bg-destructive/20 hover:bg-destructive/30 text-destructive border border-destructive/30"
+                onClick={() => navigate('/streams')}
+              >
+                <Icon name="Tv" size={16} />
+                Смотреть все стримы
+              </Button>
             </Card>
 
             <Card className="p-5 gradient-card border-border/50">

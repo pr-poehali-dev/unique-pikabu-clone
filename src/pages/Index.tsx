@@ -29,6 +29,8 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('hot');
   const [storyVotes, setStoryVotes] = useState<Record<number, 'up' | 'down' | null>>({});
+  const [savedStories, setSavedStories] = useState<Set<number>>(new Set());
+  const [shareMenuOpen, setShareMenuOpen] = useState<number | null>(null);
 
   const categories = [
     { id: 'all', name: 'Всё', icon: 'Sparkles' },
@@ -48,6 +50,42 @@ const Index = () => {
     } else {
       setStoryVotes({ ...storyVotes, [storyId]: type });
     }
+  };
+
+  const handleBookmark = (storyId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newSaved = new Set(savedStories);
+    if (newSaved.has(storyId)) {
+      newSaved.delete(storyId);
+    } else {
+      newSaved.add(storyId);
+    }
+    setSavedStories(newSaved);
+  };
+
+  const handleShare = (platform: string, story: Story, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/post/${story.id}`;
+    const text = encodeURIComponent(story.title);
+    
+    const shareUrls: Record<string, string> = {
+      vk: `https://vk.com/share.php?url=${encodeURIComponent(url)}&title=${text}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`,
+      copy: url
+    };
+
+    if (platform === 'copy') {
+      navigator.clipboard.writeText(url);
+      alert('Ссылка скопирована в буфер обмена!');
+    } else {
+      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+    }
+    setShareMenuOpen(null);
+  };
+
+  const getBookmarkCount = (story: Story) => {
+    return story.bookmarks + (savedStories.has(story.id) ? 1 : 0);
   };
 
   const getStoryRating = (story: Story) => {
@@ -390,16 +428,77 @@ const Index = () => {
                             <span className="text-sm font-medium">{story.views.toLocaleString()}</span>
                           </Button>
 
-                          <Button variant="ghost" size="sm" className="gap-2 hover:text-primary">
-                            <Icon name="Bookmark" size={18} />
-                            <span className="text-sm font-medium">{story.bookmarks}</span>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className={`gap-2 transition-all ${
+                              savedStories.has(story.id) 
+                                ? 'text-accent bg-accent/20 hover:bg-accent/30' 
+                                : 'hover:text-accent'
+                            }`}
+                            onClick={(e) => handleBookmark(story.id, e)}
+                          >
+                            <Icon name={savedStories.has(story.id) ? "BookmarkCheck" : "Bookmark"} size={18} />
+                            <span className="text-sm font-medium">{getBookmarkCount(story)}</span>
                           </Button>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <div className="flex items-center gap-2 relative">
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 hover:text-primary hover:bg-primary/10"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShareMenuOpen(shareMenuOpen === story.id ? null : story.id);
+                            }}
+                          >
                             <Icon name="Share2" size={16} />
                           </Button>
+
+                          {shareMenuOpen === story.id && (
+                            <Card className="absolute bottom-full right-0 mb-2 p-2 z-50 shadow-xl border-border/50 min-w-[180px] animate-fade-in">
+                              <div className="flex flex-col gap-1">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="justify-start gap-2 hover:bg-primary/10"
+                                  onClick={(e) => handleShare('vk', story, e)}
+                                >
+                                  <Icon name="Share" size={16} className="text-blue-500" />
+                                  ВКонтакте
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="justify-start gap-2 hover:bg-primary/10"
+                                  onClick={(e) => handleShare('telegram', story, e)}
+                                >
+                                  <Icon name="Send" size={16} className="text-sky-500" />
+                                  Telegram
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="justify-start gap-2 hover:bg-primary/10"
+                                  onClick={(e) => handleShare('twitter', story, e)}
+                                >
+                                  <Icon name="Twitter" size={16} className="text-blue-400" />
+                                  Twitter
+                                </Button>
+                                <div className="h-px bg-border my-1" />
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="justify-start gap-2 hover:bg-accent/10"
+                                  onClick={(e) => handleShare('copy', story, e)}
+                                >
+                                  <Icon name="Copy" size={16} className="text-accent" />
+                                  Копировать ссылку
+                                </Button>
+                              </div>
+                            </Card>
+                          )}
                           <Button variant="ghost" size="icon" className="h-8 w-8">
                             <Icon name="MoreHorizontal" size={16} />
                           </Button>

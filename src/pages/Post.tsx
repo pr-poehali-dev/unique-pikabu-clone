@@ -24,6 +24,8 @@ const Post = () => {
   const [isCommenting, setIsCommenting] = useState(false);
   const [postVote, setPostVote] = useState<'up' | 'down' | null>(null);
   const [commentVotes, setCommentVotes] = useState<Record<number, 'up' | 'down' | null>>({});
+  const [isPostSaved, setIsPostSaved] = useState(false);
+  const [shareMenuOpen, setShareMenuOpen] = useState(false);
 
   const post = {
     id: 1,
@@ -204,6 +206,30 @@ const Post = () => {
     if (vote === 'up') rating += 1;
     if (vote === 'down') rating -= 1;
     return rating;
+  };
+
+  const handleShare = (platform: string) => {
+    const url = `${window.location.origin}/post/${post.id}`;
+    const text = encodeURIComponent(post.title);
+    
+    const shareUrls: Record<string, string> = {
+      vk: `https://vk.com/share.php?url=${encodeURIComponent(url)}&title=${text}`,
+      telegram: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${text}`,
+      copy: url
+    };
+
+    if (platform === 'copy') {
+      navigator.clipboard.writeText(url);
+      alert('Ссылка скопирована в буфер обмена!');
+    } else {
+      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+    }
+    setShareMenuOpen(false);
+  };
+
+  const getBookmarkCount = () => {
+    return post.bookmarks + (isPostSaved ? 1 : 0);
   };
 
   const renderComment = (comment: Comment, isReply = false) => (
@@ -448,17 +474,75 @@ const Post = () => {
                           <span className="font-medium">{post.views.toLocaleString()}</span>
                         </div>
 
-                        <div className="flex items-center gap-2 text-accent">
-                          <Icon name="Bookmark" size={20} />
-                          <span className="font-medium">{post.bookmarks}</span>
-                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className={`gap-2 transition-all ${
+                            isPostSaved
+                              ? 'text-accent bg-accent/20 hover:bg-accent/30'
+                              : 'text-muted-foreground hover:text-accent'
+                          }`}
+                          onClick={() => setIsPostSaved(!isPostSaved)}
+                        >
+                          <Icon name={isPostSaved ? "BookmarkCheck" : "Bookmark"} size={20} />
+                          <span className="font-medium">{getBookmarkCount()}</span>
+                        </Button>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" className="gap-2">
+                      <div className="flex items-center gap-2 relative">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="gap-2 hover:bg-primary/10"
+                          onClick={() => setShareMenuOpen(!shareMenuOpen)}
+                        >
                           <Icon name="Share2" size={16} />
                           Поделиться
                         </Button>
+
+                        {shareMenuOpen && (
+                          <Card className="absolute top-full right-0 mt-2 p-2 z-50 shadow-xl border-border/50 min-w-[200px] animate-fade-in">
+                            <div className="flex flex-col gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="justify-start gap-2 hover:bg-primary/10"
+                                onClick={() => handleShare('vk')}
+                              >
+                                <Icon name="Share" size={16} className="text-blue-500" />
+                                ВКонтакте
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="justify-start gap-2 hover:bg-primary/10"
+                                onClick={() => handleShare('telegram')}
+                              >
+                                <Icon name="Send" size={16} className="text-sky-500" />
+                                Telegram
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="justify-start gap-2 hover:bg-primary/10"
+                                onClick={() => handleShare('twitter')}
+                              >
+                                <Icon name="Twitter" size={16} className="text-blue-400" />
+                                Twitter
+                              </Button>
+                              <div className="h-px bg-border my-1" />
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="justify-start gap-2 hover:bg-accent/10"
+                                onClick={() => handleShare('copy')}
+                              >
+                                <Icon name="Copy" size={16} className="text-accent" />
+                                Копировать ссылку
+                              </Button>
+                            </div>
+                          </Card>
+                        )}
                       </div>
                     </div>
                   </div>

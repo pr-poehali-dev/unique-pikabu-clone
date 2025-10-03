@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,19 +15,37 @@ interface Game {
   category: string;
   players: number;
   growth: number;
-  topStreamers: Array<{
-    name: string;
-    avatar: string;
-    viewers: number;
-  }>;
+  rating: number;
 }
+
+const API_URL = 'https://functions.poehali.dev/c2ff7781-17a8-4ace-828d-ca746d8838ee';
 
 const GameStats = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('players');
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const games: Game[] = [
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        setLoading(true);
+        const params = selectedCategory !== 'all' ? `?category=${selectedCategory}` : '';
+        const response = await fetch(`${API_URL}${params}`);
+        const data = await response.json();
+        setGames(data.games || []);
+      } catch (error) {
+        console.error('Error fetching games:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, [selectedCategory]);
+
+  const oldGames: Game[] = [
     {
       id: 'cs2',
       name: 'Counter-Strike 2',
@@ -187,12 +205,8 @@ const GameStats = () => {
   ];
 
   const categories = ['all', ...Array.from(new Set(games.map(g => g.category)))];
-  
-  const filteredGames = selectedCategory === 'all' 
-    ? games 
-    : games.filter(g => g.category === selectedCategory);
 
-  const sortedGames = [...filteredGames].sort((a, b) => {
+  const sortedGames = [...games].sort((a, b) => {
     if (sortBy === 'players') return b.players - a.players;
     if (sortBy === 'growth') return b.growth - a.growth;
     return 0;
@@ -378,27 +392,18 @@ const GameStats = () => {
                 <div>
                   <div className="text-xs font-semibold text-muted-foreground mb-2 flex items-center gap-1">
                     <Icon name="Star" size={12} />
-                    Топ стримеры
+                    Рейтинг
                   </div>
-                  <div className="space-y-2">
-                    {game.topStreamers.map((streamer, i) => (
-                      <div
+                  <div className="flex items-center gap-2">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon
                         key={i}
-                        className="flex items-center gap-2 p-2 rounded-lg bg-muted/20 hover:bg-muted/40 transition-colors"
-                      >
-                        <Avatar className="w-7 h-7 border border-border">
-                          <AvatarImage src={streamer.avatar} />
-                          <AvatarFallback>{streamer.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold truncate">{streamer.name}</div>
-                        </div>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <Icon name="Eye" size={12} />
-                          {(streamer.viewers / 1000).toFixed(1)}K
-                        </div>
-                      </div>
+                        name="Star"
+                        size={16}
+                        className={i < Math.floor(game.rating) ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground'}
+                      />
                     ))}
+                    <span className="text-sm font-bold ml-1">{game.rating.toFixed(1)}</span>
                   </div>
                 </div>
               </div>

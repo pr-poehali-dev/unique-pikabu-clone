@@ -30,6 +30,8 @@ interface Player {
   playStyle: string[];
 }
 
+const API_URL = 'https://functions.poehali.dev/e351b573-d084-4c37-8be3-989db202b4ad';
+
 const FindTeammates = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -38,6 +40,9 @@ const FindTeammates = () => {
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [onlineOnly, setOnlineOnly] = useState(false);
   const [lookingForTeamOnly, setLookingForTeamOnly] = useState(false);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [stats, setStats] = useState({ total: 0, online: 0, lookingForTeam: 0 });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const gameParam = searchParams.get('game');
@@ -45,6 +50,31 @@ const FindTeammates = () => {
       setSelectedGame(gameParam);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        setLoading(true);
+        const params = new URLSearchParams();
+        if (selectedGame !== 'all') params.append('game', selectedGame);
+        if (selectedRegion !== 'all') params.append('region', selectedRegion);
+        if (searchQuery) params.append('search', searchQuery);
+        if (onlineOnly) params.append('online', 'true');
+        if (lookingForTeamOnly) params.append('lfg', 'true');
+
+        const response = await fetch(`${API_URL}?${params.toString()}`);
+        const data = await response.json();
+        setPlayers(data.players || []);
+        setStats(data.stats || { total: 0, online: 0, lookingForTeam: 0 });
+      } catch (error) {
+        console.error('Error fetching players:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayers();
+  }, [selectedGame, selectedRegion, searchQuery, onlineOnly, lookingForTeamOnly]);
 
   const games = [
     { id: 'all', name: 'Все игры', icon: '🎮' },
@@ -67,154 +97,13 @@ const FindTeammates = () => {
     { id: 'sa', name: '🇧🇷 Южная Америка' },
   ];
 
-  const players: Player[] = [
-    {
-      id: '1',
-      username: 'ProGamer2024',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 12845,
-      level: 45,
-      games: [
-        { id: 'cs2', name: 'CS2', icon: '🔫', rank: 'Global Elite', hours: 2340 },
-        { id: 'valorant', name: 'Valorant', icon: '🎯', rank: 'Immortal 2', hours: 890 },
-      ],
-      isOnline: true,
-      lastSeen: 'Сейчас в сети',
-      lookingForTeam: true,
-      languages: ['Русский', 'English'],
-      region: 'ru',
-      playStyle: ['Агрессивный', 'Командный']
-    },
-    {
-      id: '2',
-      username: 'MidLaner_Pro',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 9876,
-      level: 38,
-      games: [
-        { id: 'lol', name: 'LoL', icon: '⚔️', rank: 'Diamond I', hours: 1560 },
-        { id: 'dota2', name: 'Dota 2', icon: '🎮', rank: 'Ancient 5', hours: 2100 },
-      ],
-      isOnline: true,
-      lastSeen: 'Сейчас в сети',
-      lookingForTeam: true,
-      languages: ['Русский'],
-      region: 'ru',
-      playStyle: ['Carry', 'Микроконтроль']
-    },
-    {
-      id: '3',
-      username: 'SniperKing',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 8432,
-      level: 32,
-      games: [
-        { id: 'apex', name: 'Apex', icon: '🎖️', rank: 'Predator', hours: 1234 },
-        { id: 'fortnite', name: 'Fortnite', icon: '🏹', rank: 'Champion', hours: 980 },
-      ],
-      isOnline: false,
-      lastSeen: '15 минут назад',
-      lookingForTeam: true,
-      languages: ['Русский', 'English'],
-      region: 'eu',
-      playStyle: ['Снайпер', 'Поддержка']
-    },
-    {
-      id: '4',
-      username: 'CasualGamer',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 5678,
-      level: 28,
-      games: [
-        { id: 'minecraft', name: 'Minecraft', icon: '🟫', rank: 'Builder', hours: 3400 },
-        { id: 'gta5', name: 'GTA V', icon: '🚗', rank: 'Level 120', hours: 890 },
-      ],
-      isOnline: true,
-      lastSeen: 'Сейчас в сети',
-      lookingForTeam: false,
-      languages: ['Русский'],
-      region: 'ru',
-      playStyle: ['Расслабленный', 'Строитель']
-    },
-    {
-      id: '5',
-      username: 'TacticalMaster',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 11234,
-      level: 42,
-      games: [
-        { id: 'cs2', name: 'CS2', icon: '🔫', rank: 'Legendary Eagle', hours: 1890 },
-        { id: 'valorant', name: 'Valorant', icon: '🎯', rank: 'Ascendant 3', hours: 1240 },
-      ],
-      isOnline: false,
-      lastSeen: '2 часа назад',
-      lookingForTeam: true,
-      languages: ['Русский', 'English'],
-      region: 'ru',
-      playStyle: ['Тактический', 'IGL']
-    },
-    {
-      id: '6',
-      username: 'DotaLegend',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 13456,
-      level: 50,
-      games: [
-        { id: 'dota2', name: 'Dota 2', icon: '🎮', rank: 'Divine 3', hours: 4560 },
-      ],
-      isOnline: true,
-      lastSeen: 'Сейчас в сети',
-      lookingForTeam: true,
-      languages: ['Русский', 'English'],
-      region: 'ru',
-      playStyle: ['Hard Support', 'Капитан']
-    },
-    {
-      id: '7',
-      username: 'ApexPredator',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 9987,
-      level: 36,
-      games: [
-        { id: 'apex', name: 'Apex', icon: '🎖️', rank: 'Master', hours: 2100 },
-        { id: 'fortnite', name: 'Fortnite', icon: '🏹', rank: 'Unranked', hours: 340 },
-      ],
-      isOnline: true,
-      lastSeen: 'Сейчас в сети',
-      lookingForTeam: true,
-      languages: ['English'],
-      region: 'na',
-      playStyle: ['Агрессивный', 'Flanker']
-    },
-    {
-      id: '8',
-      username: 'MinecraftBuilder',
-      avatar: '/img/2653dd1a-8cde-4c82-a444-5f236774ba17.jpg',
-      rating: 4321,
-      level: 22,
-      games: [
-        { id: 'minecraft', name: 'Minecraft', icon: '🟫', rank: 'Redstone Expert', hours: 5600 },
-      ],
-      isOnline: false,
-      lastSeen: '1 день назад',
-      lookingForTeam: false,
-      languages: ['Русский'],
-      region: 'ru',
-      playStyle: ['Креативный', 'Техничный']
-    },
-  ];
-
-  const filteredPlayers = players.filter(player => {
-    if (selectedGame !== 'all' && !player.games.some(g => g.id === selectedGame)) return false;
-    if (selectedRegion !== 'all' && player.region !== selectedRegion) return false;
-    if (onlineOnly && !player.isOnline) return false;
-    if (lookingForTeamOnly && !player.lookingForTeam) return false;
-    if (searchQuery && !player.username.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    return true;
-  });
-
-  const onlinePlayers = players.filter(p => p.isOnline).length;
-  const lookingForTeam = players.filter(p => p.lookingForTeam).length;
+  const regionMap: Record<string, string> = {
+    'russia': 'ru',
+    'europe': 'eu',
+    'usa': 'na',
+    'asia': 'asia',
+    'south_america': 'sa'
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -268,7 +157,7 @@ const FindTeammates = () => {
               </div>
               <div>
                 <div className="text-sm text-muted-foreground">Всего игроков</div>
-                <div className="text-2xl font-bold text-gradient">{players.length}</div>
+                <div className="text-2xl font-bold text-gradient">{stats.total}</div>
               </div>
             </div>
           </Card>
@@ -280,7 +169,7 @@ const FindTeammates = () => {
               </div>
               <div>
                 <div className="text-sm text-muted-foreground">Онлайн сейчас</div>
-                <div className="text-2xl font-bold text-accent">{onlinePlayers}</div>
+                <div className="text-2xl font-bold text-accent">{stats.online}</div>
               </div>
             </div>
           </Card>
@@ -292,7 +181,7 @@ const FindTeammates = () => {
               </div>
               <div>
                 <div className="text-sm text-muted-foreground">Ищут команду</div>
-                <div className="text-2xl font-bold text-secondary">{lookingForTeam}</div>
+                <div className="text-2xl font-bold text-secondary">{stats.lookingForTeam}</div>
               </div>
             </div>
           </Card>
@@ -364,16 +253,23 @@ const FindTeammates = () => {
 
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            Найдено игроков: <span className="font-bold text-foreground">{filteredPlayers.length}</span>
+            Найдено игроков: <span className="font-bold text-foreground">{players.length}</span>
           </p>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Icon name="SlidersHorizontal" size={16} />
-            Дополнительные фильтры
-          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredPlayers.map((player, index) => (
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-muted-foreground">Загрузка...</div>
+          </div>
+        ) : players.length === 0 ? (
+          <Card className="p-12 text-center gradient-card border-border/50">
+            <Icon name="Search" size={48} className="mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-xl font-bold mb-2">Никого не найдено</h3>
+            <p className="text-muted-foreground mb-6">Попробуйте изменить фильтры поиска</p>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {players.map((player, index) => (
             <Card
               key={player.id}
               className="gradient-card border-border/50 overflow-hidden hover-lift cursor-pointer animate-fade-in"
@@ -452,12 +348,12 @@ const FindTeammates = () => {
                   <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-1 text-muted-foreground">
                       <Icon name="Globe" size={12} />
-                      {regions.find(r => r.id === player.region)?.name || player.region}
+                      {regions.find(r => r.id === (regionMap[player.region] || player.region))?.name || player.region}
                     </div>
                     <div className="flex gap-1">
                       {player.languages.map((lang, i) => (
                         <Badge key={i} variant="outline" className="text-xs">
-                          {lang === 'Русский' ? '🇷🇺' : '🇬🇧'}
+                          {lang === 'ru' ? '🇷🇺' : lang === 'en' ? '🇬🇧' : lang === 'de' ? '🇩🇪' : lang === 'zh' ? '🇨🇳' : lang}
                         </Badge>
                       ))}
                     </div>
@@ -489,28 +385,8 @@ const FindTeammates = () => {
                 </div>
               </div>
             </Card>
-          ))}
-        </div>
-
-        {filteredPlayers.length === 0 && (
-          <Card className="p-12 gradient-card border-border/50 text-center">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold mb-2">Никого не найдено</h3>
-            <p className="text-muted-foreground mb-4">
-              Попробуйте изменить параметры поиска
-            </p>
-            <Button
-              onClick={() => {
-                setSelectedGame('all');
-                setSelectedRegion('all');
-                setOnlineOnly(false);
-                setLookingForTeamOnly(false);
-                setSearchQuery('');
-              }}
-            >
-              Сбросить фильтры
-            </Button>
-          </Card>
+            ))}
+          </div>
         )}
       </div>
     </div>

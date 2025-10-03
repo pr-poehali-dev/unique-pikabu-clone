@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "Get posts",
+      "method": "GET",
+      "path": "/?type=posts",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "posts": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get streams",
+      "method": "GET",
+      "path": "/?type=streams",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "streams": "array"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get giveaways",
+      "method": "GET",
+      "path": "/?type=giveaways",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "giveaways": "array"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
